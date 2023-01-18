@@ -1,6 +1,4 @@
 #include "Ball.h"
-#include "helpers/IRenderHelpers.h"
-#include "helpers/IGuiHelpers.h"
 
 Ball::Ball()
 {

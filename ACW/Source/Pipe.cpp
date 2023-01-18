@@ -1,6 +1,5 @@
 #include "Pipe.h"
-#include "helpers/IRenderHelpers.h"
-#include "helpers/IGuiHelpers.h"
+
 
 Pipe::Pipe()
 {

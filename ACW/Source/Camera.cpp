@@ -1,6 +1,5 @@
 #include "Camera.h"
-#include "helpers/IRenderHelpers.h"
-#include "helpers/IGuiHelpers.h"
+
 
 void Camera::Render(const IRenderHelpers& pHelper) const
 {

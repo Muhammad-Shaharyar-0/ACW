@@ -1,11 +1,5 @@
-﻿  Agent.cpp
-  Ball.cpp
-  Pipe.cpp
-C:\Users\hp\source\repos\ACW\ACW\Source\Pipe.cpp(15,19): warning C4305: '=': truncation from 'double' to 'float'
-  Floor.cpp
-  Camera.cpp
-  GameEntity.cpp
-  App.cpp
+﻿  App.cpp
+C:\Users\hp\source\repos\ACW\ACW\Source\GameEntity.h(40,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
 C:\Users\hp\source\repos\ACW\ACW\Source\App.cpp(101,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\hp\source\repos\ACW\ACW\Source\App.cpp(102,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\hp\source\repos\ACW\ACW\Source\App.cpp(106,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
@@ -17,17 +11,21 @@ C:\Users\hp\source\repos\ACW\ACW\Source\App.cpp(256,30): warning C4244: 'argumen
 C:\Users\hp\source\repos\ACW\ACW\Source\App.cpp(258,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 C:\Users\hp\source\repos\ACW\ACW\Source\App.cpp(262,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   GuiHelpers.cpp
+C:\Users\hp\source\repos\ACW\ACW\Source\GameEntity.h(40,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
   RenderHelpers.cpp
-  imgui.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-  imgui_impl_glfw.cpp
-  imgui_impl_opengl3.cpp
-  imgui_tables.cpp
-  imgui_widgets.cpp
+C:\Users\hp\source\repos\ACW\ACW\Source\GameEntity.h(40,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
   World.cpp
-C:\Users\hp\source\repos\ACW\ACW\Source\World.cpp(48,11): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\hp\source\repos\ACW\ACW\Source\World.cpp(49,11): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\hp\source\repos\ACW\ACW\Source\GameEntity.h(40,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
+C:\Users\hp\source\repos\ACW\ACW\Source\World.cpp(166,51): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\hp\source\repos\ACW\ACW\Source\World.cpp(166,35): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
   Generating Code...
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library

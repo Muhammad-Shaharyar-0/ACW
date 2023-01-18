@@ -1,22 +1,51 @@
 #pragma once
+#include <vector>
 #include "GameEntity.h"
 #include "Agent.h"
+#include "Tower.h"
 
-class World :
-	public GameEntity
+using namespace std;
+
+struct cell
 {
-	public:
-		const static int GRID_WIDTH = 25;
-		const static int GRID_DEPTH = 20;
+	bool isWalkable = true;
+	bool isOccupied = false;
+	GameEntity* occupiedBy = nullptr;
+};
 
-	private:
-		const static int NUMBER_OF_AGENTS = 4;
+class World : public GameEntity
+{
+public:
+	const static int GRID_WIDTH = 30;
+	const static int GRID_DEPTH = 30;
 
-		int _gridHeights[GRID_WIDTH][GRID_DEPTH];
-		glm::vec3 _gridColours[GRID_WIDTH][GRID_DEPTH];
+private:
+	const static int NUMBER_OF_AGENTS = 4;
+	const static int NUMBER_OF_Towers = 4;
+	int _gridHeights[GRID_WIDTH][GRID_DEPTH];
+	glm::vec3 _gridColours[GRID_WIDTH][GRID_DEPTH];
 
-		Agent _agents[NUMBER_OF_AGENTS];
-	public:
+	cell _grid[GRID_WIDTH][GRID_DEPTH];
+
+	Agent _agents[NUMBER_OF_AGENTS];
+
+	Tower _Towers[NUMBER_OF_Towers];
+
+	vector<GameEntity*> entities;
+
+	//static World* _instance;
+
+public:
+
+
+
+	//static World* _instance;
+
+
+
+
+
+
 
 	World();
 	~World();
@@ -34,5 +63,10 @@ class World :
 	void Update(float pSeconds);
 	void Render(const IRenderHelpers&) const;
 	void RenderGui(const IGuiHelpers&);
+	bool FindTargetAgent(glm::vec3 towerPos, Team allyTeam, glm::vec3& nearest);
+	bool isWithinBounds(int x, int z);
 };
 
+
+
+//World* World::_instance = nullptr;

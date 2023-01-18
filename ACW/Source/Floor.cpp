@@ -1,6 +1,5 @@
 #include "Floor.h"
-#include "helpers/IRenderHelpers.h"
-#include "helpers/IGuiHelpers.h"
+
 
 Floor::Floor()
 {	

@@ -1,5 +1,5 @@
 #include "GameEntity.h"
-#include "helpers/IGuiHelpers.h"
+
 
 unsigned int GameEntity::s_NextID = 0;
 
