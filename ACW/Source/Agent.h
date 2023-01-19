@@ -24,26 +24,33 @@ class Agent :
     public GameEntity
 {
 private:
-    float health = 10;
+    float health = 90;
     float initialhealth = health;
   
     State agent_State= State::Idle;
 
     float respawnTime;
-    
+    float AttackTime;
+    float SearchingTime;
+
     vector<Floor*> path;
     int pathIndex=0;
     Target targetType=Target::None;
 
-    float speed=500;
+    
 
 public:
     float radius = 0.5; // radius of the cylinder
-    float height = 1; // height of the cylinder
+    float height = 2; // height of the cylinder
+    float speed = 1500;
+    glm::vec3 cylinderAxis = glm::normalize(glm::vec3(0, height, 0));
     Agent()
     {
         type = EntityType::Agent;
         respawnTime = 5.0;
+        mass = 500;
+        SearchingTime=2.0f;
+        AttackTime = 1.5f;
     }
 	void Update(const float pSeconds);
     void Stop();

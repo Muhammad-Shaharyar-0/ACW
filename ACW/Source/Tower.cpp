@@ -37,6 +37,62 @@ void Tower::Update(float pDeltaTime)
 
         }
     }
+    vector<GameEntity*> agents = World::_instance->SearchGrid(position, 2, EntityType::Agent);
+
+    float teaminfluence[2] = { 0, 0 };
+
+    if (agents.size() > 0)
+    {
+        for (int i = 0; i < agents.size(); ++i)
+        {
+            teaminfluence[(int)agents[i]->team] += pDeltaTime * 2.5f;
+        }
+    }
+
+    float diffinInfluence = teaminfluence[(int)Team::Red] - teaminfluence[(int)Team::Blue];
+
+    if (capturingTeam == Team::Red)
+    {
+        influence += diffinInfluence;
+    }
+    else if (capturingTeam == Team::Blue)
+    {
+        influence -= diffinInfluence;
+    }
+    else
+    {
+        capturingTeam = diffinInfluence > 0 ? Team::Red : Team::Blue;
+    }
+
+    if (influence < 0)
+    {
+        if (capturingTeam == Team::Blue)
+        {
+            capturingTeam = Team::Red;
+        }
+          
+        else if (capturingTeam == Team::Red)
+        {
+            capturingTeam = Team::Blue;
+        }
+           
+
+        influence = -influence;
+    }
+
+
+    if (influence >= 5)
+    {
+        team = capturingTeam;
+        World::_instance->AddScore(team, (pDeltaTime * influence) / 2.0f);
+        if (influence > 10.0f)
+            influence = 10.0f;
+    }
+    else
+    {
+        team = Team::Netural;
+    }
+
 }
 
 Ball* Tower::ShootProjectile(float dt, glm::vec3 dir)
@@ -49,4 +105,9 @@ Ball* Tower::ShootProjectile(float dt, glm::vec3 dir)
     ball->applyForce(dir * projectileSpeed);
 
 	return ball;
+}
+
+bool Tower::IsCaptured(Team t)
+{
+    return (influence >= 10 && t == team);
 }

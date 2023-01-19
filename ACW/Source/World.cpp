@@ -1,5 +1,5 @@
 #include "World.h"
-
+#include<cmath>
 World* World::_instance = nullptr;
 
 World::World()
@@ -28,10 +28,11 @@ World::World()
 	{
 		for (int j = 0; j < GRID_DEPTH; j++)
 		{
-			int x = rand() % (3 - 0) + 1;
+			int x = rand() % (2 - 0) + 1;
 			_grid[i][j].SetPosition(glm::vec3(i, 0, j));
 			_grid[i][j].difficulty = x;
 			AddEntity(&_grid[i][j]);
+			_gridColours[i][j] = glm::vec3(x, 0, 1);
 		}
 	}
 
@@ -47,22 +48,27 @@ World::World()
 		_gridHeights[GRID_WIDTH - 1][i] = 3;
 	}
 
-	glm::vec3 colours[3] = { glm::vec3(1, 0, 0), glm::vec3(0, 1, 0), glm::vec3(0, 0, 1) };
+	//glm::vec3 colours[3] = { glm::vec3(1, 0, 0), glm::vec3(0, 1, 0), glm::vec3(0, 0, 1) };
 
-	for (int i = 0; i < GRID_WIDTH; i++)
-	{
-		for (int j = 0; j < GRID_DEPTH; j++)
-		{
-			_gridColours[i][j] = colours[rand() % 3];
-		}
-	}
+	//for (int i = 0; i < GRID_WIDTH; i++)
+	//{
+	//	for (int j = 0; j < GRID_DEPTH; j++)
+	//	{
+	//		_gridColours[i][j] = colours[rand() % 3];
+	//	}
+	//}
 
 	SpawnPosition[0] = glm::vec3(3, 0, 15);
-	SpawnPosition[1] = glm::vec3(27, 0, 4);
+	SpawnPosition[1] = glm::vec3(27, 0, 15);
 	for (int i = 0; i < NUMBER_OF_AGENTS; i++)
 	{
+		int x = rand() % (50 - 25) + 1;
+		int z = rand() % (500 - 100) + 1;
+		_agents[i].mass += x;
+		_agents[i].speed += z;
 		if (i < NUMBER_OF_AGENTS / 2)
 		{
+		
 			_agents[i].Translate(SpawnPosition[0]);
 			_agents[i].team = Team::Red;
 			_agents[i].GetColour() = glm::vec3(1, 0, 0);
@@ -83,21 +89,27 @@ World::World()
 
 
 
-	for (int i = 0; i < NUMBER_OF_Towers; i++)
-	{
-	/*	int x = rand() % (GRID_WIDTH - 3) + 1;
-		int z = rand() % (GRID_DEPTH - 3) + 1;
-		while (_grid[x][z].isOccupied == true)
-		{
-			 x = rand() % (GRID_WIDTH - 3) + 1;
-			 z = rand() % (GRID_DEPTH - 3) + 1;
-		}*/
-		_Towers[i].Translate(glm::vec3(15, 0.0f, 15));
-		entities.push_back(&_Towers[i]);
-		_grid[15][15].isWalkable = false;
-		_grid[15][15].isOccupied = true;
-		_grid[15][15].occupiedBy = &_Towers[i];
-	}
+	//for (int i = 0; i < NUMBER_OF_Towers; i++)
+	//{
+	///*	int x = rand() % (GRID_WIDTH - 3) + 1;
+	//	int z = rand() % (GRID_DEPTH - 3) + 1;
+	//	while (_grid[x][z].isOccupied == true)
+	//	{
+	//		 x = rand() % (GRID_WIDTH - 3) + 1;
+	//		 z = rand() % (GRID_DEPTH - 3) + 1;
+	//	}*/
+
+	//}
+	_Towers[0].Translate(glm::vec3(15, 0.0f, 5));
+	entities.push_back(&_Towers[0]);
+	_grid[15][15].isWalkable = false;
+	_grid[15][15].isOccupied = true;
+	_grid[15][15].occupiedBy = &_Towers[0];
+	_Towers[1].Translate(glm::vec3(15, 0.0f, 25));
+	entities.push_back(&_Towers[1]);
+	_grid[15][15].isWalkable = false;
+	_grid[15][15].isOccupied = true;
+	_grid[15][15].occupiedBy = &_Towers[1];
 	
 	if (_instance == nullptr) {
 		_instance = this;
@@ -112,8 +124,10 @@ World::~World()
 
 void World::Update(float pSeconds)
 {
+	matchTime += pSeconds;
 	//_agents[0].applyForce(glm::vec3(20.25f, 0, 0));
 //	_agents[1].applyForce(glm::vec3(-10.25f, 0, 0));
+	GameEntity* itemToRemove = nullptr;
 	for (int i = 0; i < entities.size(); i++)
 	{
 
@@ -126,8 +140,13 @@ void World::Update(float pSeconds)
 				{
 					if (entities[i]->checkCollision(*entities[j]))
 					{
+						Agent* agent = dynamic_cast<Agent*>(entities[j]);
+						if (agent)
+						{
+							itemToRemove = entities[i];
+						}
 						entities[i]->resolveCollision(*entities[j]);
-						entities[j]->resolveCollision(*entities[i]);
+					//	entities[j]->resolveCollision(*entities[i]);
 					}
 				}
 
@@ -138,6 +157,7 @@ void World::Update(float pSeconds)
 		if (cube == nullptr)
 			entities[i]->Update(pSeconds);
 	}
+	RemoveEntity(itemToRemove);
 	//for (size_t i = 0; i < entities.size(); i++)
 	//{
 	//	
@@ -205,7 +225,7 @@ void World::AddEntity(GameEntity* item)
 void World::RemoveEntity(GameEntity* item)
 {
 	entities.erase(std::remove(entities.begin(), entities.end(), item), entities.end());
-
+	delete item;
 }
 
 
@@ -243,7 +263,7 @@ bool World::FindTargetAgent(glm::vec3 towerPos, int range, Team team,glm::vec3& 
 	//	}
 	//}
 	//return found;
-	float closestDistSqr = 99999999.9;
+	float closestDistSqr = INFINITY;
 	bool isFound = false;
 	for (int i = 0; i < NUMBER_OF_AGENTS; ++i)
 	{
@@ -270,11 +290,11 @@ bool World::FindTargetAgent(glm::vec3 towerPos, int range, Team team,glm::vec3& 
 bool World::GetClosestTowerPosition(glm::vec3 start, Team team,glm::vec3& closestPos)
 {
 	
-	float closestDistSqr = 99999999.9;
+	float closestDistSqr = INFINITY;
 	bool isFound = false;
 	for (int i = 0; i < NUMBER_OF_Towers; ++i)
 	{
-		if (_Towers[i].team != team)
+		if (_Towers[i].team != team || _Towers[i].team==Team::Netural)
 		{
 			glm::vec3 dist = start - _Towers[i].position;
 			float distSqr = glm::dot(dist, dist);
@@ -438,8 +458,65 @@ vector<Floor*> World::PathFinding(glm::vec3 start, glm::vec3 end)
 
 }
 
+vector<GameEntity*> World::SearchGrid(glm::vec3 startpos, int range, EntityType type)
+{
+	
+	vector<GameEntity*> items;
+
+	//for (int x = -radius; x <= radius; ++x)
+	//{
+	//	for (int z = -radius; z <= radius; ++z)
+	//	{
+	//		if (x * x + z * z <= radius * radius)
+	//		{
+	//			if (WithinBounds(center.x + x, 0, center.z + z))
+	//			{
+	//				GameEntity* unit = cells[center.x + x][0][center.z + z];
+	//				while (unit != NULL)
+	//				{
+	//					// Search a specific type of enemy or search all types
+	//					if (type != EntityType::None)
+	//					{
+	//						if (unit->type == type)
+	//						{
+	//							searchResult.push_back(unit);
+	//						}
+	//					}
+	//					else
+	//					{
+	//						searchResult.push_back(unit);
+	//					}
+	//					unit = unit->next;
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+	//return searchResult;
+
+	for (int i = 0; i < entities.size(); ++i)
+	{
+		if (entities[i]->type == type || type==EntityType::All)
+		{
+			glm::vec3 dist = startpos - entities[i]->position;
+			float distSqr = glm::dot(dist, dist);
+			if (distSqr <= range * range)
+			{
+				items.push_back(entities[i]);
+			}
+		}
+		
+	}
+	return items;
+}
+
 bool World::isWithinBounds(int x, int z)
 {
 	return (x >= 0 && x < GRID_WIDTH&&
 		z >= 0 && z < GRID_DEPTH);
+}
+
+void World::AddScore(Team team, float score)
+{
+	TeamScores[(int)team] += score;
 }

@@ -85,10 +85,11 @@ void GameEntity::PhysicsUpdate(IntegrationMethod integrationMethod, float pDelta
 	velocity = glm::clamp(velocity, -maxvelocity, maxvelocity);
 	// Update the position
 	position += velocity * pDeltaTime;
-	if (position.y < 0)
-	{
-		position.y = 0;
-	}
+	//if (position.y < 0)
+	//{
+	//	position.y = 0;
+	//	velocity.y = 0;
+	//}
 	SetPosition(position);
 	// Clear the force
 	force = glm::vec3(0.0f);

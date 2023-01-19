@@ -1,6 +1,6 @@
 #include "Agent.h"
 #include "World.h"
-
+#include <cmath>
 
 void Agent::Update(float pSeconds)
 {
@@ -8,14 +8,17 @@ void Agent::Update(float pSeconds)
     StateMachine(pSeconds);
 	// Update your Agent here 
 	PhysicsUpdate(IntegrationMethod::Euler,pSeconds);
-
+    if (position.y < 0)
+    {
+    	position.y = 0;
+    	velocity.y = 0;
+    }
 
 
 }
 void Agent::Stop()
 {
 
-   
     force = glm::vec3(0, 0, 0);
     velocity = glm::vec3(0, 0, 0);
     accerleration = glm::vec3(0, 0, 0);
@@ -103,85 +106,70 @@ void Agent::StateMachine(float pSeconds)
          {
              Stop();
              path.clear();
-             agent_State = State::Idle;
-           
+             if (targetType == Target::Tower)
+             {
+                 agent_State = State::Capturing;
+             }         
          }
-   /*      else
-         {
-             if (path.type == PathType::Tower)
-             {
-                 printf("At tower state\n");
-                 state = AgentState::AtTower;
-             }
-             else
-             {
-                 printf("Picked up powerup, old health %.2f", health);
-                 TakeDamage(-world->PickupPowerUp(path.entityIndex));
-                 printf(", new health %.2f\n", health);
-                 state = AgentState::Idle;
-             }
-         }*/
+
         break;
     }
-    //case AgentState::AtTower:
-    //{
-    //    searchTime -= pDt;
-    //    if (searchTime <= 0)
-    //    {
-    //        searchTime = 3.0f;
-    //        SearchResult search = world->SearchArea(GetPosition(), 2);
+    case State::Capturing:
+    {
+        SearchingTime -= pSeconds;
+        Agent* target = nullptr;
+        if (SearchingTime <= 0)
+        {
+            SearchingTime = 2.0f;
+            vector<GameEntity*> entities = World::_instance->SearchGrid(GetPosition(), 2,EntityType::All);
 
-    //        if (search.size() > 0)
-    //        {
-    //            int enemyAgentIdx = -1;
-    //            float distSqr = 999999999.9f;
-    //            for (int i = 0; i < search.size(); ++i)
-    //            {
-    //                if (search[i]->type == EntityType::Agent)
-    //                {
-    //                    if (search[i]->team != team)
-    //                    {
-    //                        float distSqr2 = DistanceSquared(search[i]);
-    //                        if (distSqr2 < distSqr)
-    //                        {
-    //                            enemyAgentIdx = i;
-    //                            distSqr = distSqr2;
-    //                        }
-    //                    }
-    //                }
-    //                else if (search[i]->type == EntityType::Tower)
-    //                {
-    //                    if (((Tower*)search[i])->IsCaptured(team))
-    //                    {
-    //                        printf("Returning idle\n");
-    //                        state = AgentState::Idle;
-    //                    }
-    //                }
-    //            }
-    //            // Found agent;
-    //            if (enemyAgentIdx != -1)
-    //                targetAgent = (Agent*)search[enemyAgentIdx];
-    //            else
-    //                targetAgent = NULL;
-    //        }
-    //    }
+            if (entities.size() > 0)
+            {
+                int index = -1;
+                float closestDistSqr = INFINITY;
+                for (int i = 0; i < entities.size(); ++i)
+                {
+                    if (entities[i]->type == EntityType::Agent)
+                    {
+                        if (entities[i]->team != team)
+                        {
+                            glm::vec3 dist = position - entities[i]->position;
+                            float distSqr = glm::dot(dist, dist);
+                            if (distSqr < closestDistSqr)
+                            {
+                                target = (Agent*)entities[i];
+                                closestDistSqr = distSqr;
 
-    //    if (targetAgent)
-    //    {
-    //        attackTime -= pDt;
-    //        if (attackTime <= 0)
-    //        {
-    //            attackTime = 1.0f;
-    //            bool targetDead = targetAgent->TakeDamage(15.0f);
-    //            if (targetDead)
-    //            {
-    //                targetAgent = NULL;
-    //            }
-    //        }
-    //    }
+                            }
+                        }
+                       
+                    }
+                    else if (entities[i]->type == EntityType::Tower)
+                    {
+                        if (((Tower*)entities[i])->IsCaptured(team))
+                        {
+                            agent_State = State::Idle;
+                        }
+                    }
+                }
+            }
+        }
 
-    //    break;
-    //}
+        if (target)
+        {
+            AttackTime -= pSeconds;
+            if (AttackTime <= 0)
+            {
+                AttackTime = 1.5f;
+                if (target->TakeDamage(15.0f))
+                {
+                    target = NULL;
+                }
+            }
+        }
+
+        break;
+    }
     }
 }
 void Agent::Render(const IRenderHelpers& pHelper) const

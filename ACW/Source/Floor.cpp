@@ -13,6 +13,7 @@ Floor::Floor()
 	isWalkable = true;
 	isOccupied = false;
 	occupiedBy = nullptr;
+	mass = 500;
 }
 
 void Floor::Render(const IRenderHelpers& pHelper) const

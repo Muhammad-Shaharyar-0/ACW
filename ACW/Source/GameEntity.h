@@ -15,13 +15,14 @@ enum class EntityType
 	Tower,
 	Ball,
 	Floor,
+	All,
 };
 
 enum class Team
 {
 	Red=0,
 	Blue=1,
-	Netural,
+	Netural=2,
 };
 
 class GameEntity
@@ -51,9 +52,9 @@ public:
 	const float GRAVITY_MAGNITUDE = 9.8f;
 
 	float mass = 100; //grams
-	float dragCoefficient=0.2;
+	float dragCoefficient=0.3;
 
-	float elasticity= 0.5f;
+	float elasticity= 0.1f;
 
 	glm::vec3 force = glm::vec3(0.0f, 0.0f, 0.0f); // net force acting on the object
 

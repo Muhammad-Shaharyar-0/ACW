@@ -12,6 +12,8 @@ private:
     float projectileSpeed;
 
     float influence;
+
+    Team capturingTeam;
     int range;
 
 public:
@@ -24,6 +26,8 @@ public:
     //void DestroyProjectile(Ball* projectile);
 
     Ball* ShootProjectile(float dt, glm::vec3 dir);
+
+    bool IsCaptured(Team pTeam);
 
     bool checkCollision(GameEntity& other) { return false; };
 

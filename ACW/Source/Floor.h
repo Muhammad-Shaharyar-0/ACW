@@ -16,7 +16,7 @@ public:
         float gCost;
         float hCost;
         float difficulty=0;
-        float halfsize=0.5f;
+        float halfsize=1.0f;
         Floor();
         void Render(const IRenderHelpers&) const;
         void RenderGui(const IGuiHelpers&);
