@@ -14,12 +14,13 @@ enum class EntityType
 	Agent,
 	Tower,
 	Ball,
+	Floor,
 };
 
 enum class Team
 {
-	Red,
-	Blue,
+	Red=0,
+	Blue=1,
 	Netural,
 };
 
@@ -50,13 +51,14 @@ public:
 	const float GRAVITY_MAGNITUDE = 9.8f;
 
 	float mass = 100; //grams
+	float dragCoefficient=0.2;
 
-	float elasticity= 1.0f;
+	float elasticity= 0.5f;
 
 	glm::vec3 force = glm::vec3(0.0f, 0.0f, 0.0f); // net force acting on the object
 
 	float maxForce = 50;
-	float maxvelocity = 100;
+	const float maxvelocity = 50;
 
 	enum class IntegrationMethod {
 		RungeKutta,
@@ -92,15 +94,6 @@ public:
 		m_Model = glm::rotate(m_Model, pRadians, pAxis);
 	}
 
-	void moveForward() {
-		position += speed * glm::normalize(glm::vec3(cos(rotation.x), sin(rotation.y), sin(rotation.z)));
-	}
-
-	void applyForce(glm::vec3 f) 
-	{
-		force += f;
-		//accerleration += (f / mass) * direction;
-	}
 
 	void SetPosition(glm::vec3 pPosition)
 	{
@@ -110,45 +103,15 @@ public:
 		model[3][2] = pPosition.z;
 		position = pPosition;
 	}
+	virtual bool checkCollision(GameEntity& other) =0;
 
-	void PhysicsUpdate(IntegrationMethod integrationMethod)
-	{
-		applyForce(GRAVITY_MAGNITUDE * mass * GRAVITY_DIRECTION);
-		accerleration = force / mass;
-		switch (integrationMethod) 
-		{
-			case IntegrationMethod::RungeKutta: 
-			{
-				glm::vec3 k1 = velocity;
-				glm::vec3 k2 = velocity + accerleration * DELTA_T / 2.0f;
-				glm::vec3 k3 = velocity + accerleration * DELTA_T / 2.0f;
-				glm::vec3 k4 = velocity + accerleration * DELTA_T;
+	virtual void resolveCollision(GameEntity& other) = 0;
 
-				position += (k1 + 2.0f * k2 + 2.0f * k3 + k4) * DELTA_T / 6.0f;
-				velocity += accerleration * DELTA_T;
-				break;
-			}
-			case IntegrationMethod::SimplifiedEuler: {
-				position += velocity * DELTA_T;
-				velocity += accerleration * DELTA_T;
-				break;
-			}
-			case IntegrationMethod::Euler: 
-			{
-				velocity += accerleration * DELTA_T;
-				position += velocity * DELTA_T;
-				break;
-			}
-		}
-		if (position.y < 0)
-		{
-			position.y = 0;
-			velocity.y = 0;
-			accerleration.y = 0;
-		}
-
-		SetPosition(position);
-	}
 	virtual void Render(const IRenderHelpers&) const = 0;
 	virtual void RenderGui(const IGuiHelpers&);
+	void moveForward();
+	void applyForce(glm::vec3 f);
+	void PhysicsUpdate(IntegrationMethod integrationMethod, float pDeltaTime);
+
+	virtual void Update(float pDeltaTime)=0;
 };

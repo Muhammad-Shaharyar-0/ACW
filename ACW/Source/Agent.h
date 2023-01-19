@@ -1,71 +1,72 @@
 #pragma once
+#include <vector>
 #include "GameEntity.h"
+#include "Floor.h"
 
+enum class State
+{
+    Idle,
+    Moving,
+    Capturing,
+    Attacking,
+    Respawning,
+};
+
+enum class Target
+{
+    Tower,
+    PowerUp,
+    None,
+};
+
+using namespace std;
 class Agent :
     public GameEntity
 {
 private:
-    float radius=0.5; // radius of the cylinder
-    float height=1; // height of the cylinder
-public:
+    float health = 10;
+    float initialhealth = health;
+  
+    State agent_State= State::Idle;
 
+    float respawnTime;
+    
+    vector<Floor*> path;
+    int pathIndex=0;
+    Target targetType=Target::None;
+
+    float speed=500;
+
+public:
+    float radius = 0.5; // radius of the cylinder
+    float height = 1; // height of the cylinder
     Agent()
     {
-        type = EntityType::Tower;
+        type = EntityType::Agent;
+        respawnTime = 5.0;
     }
 	void Update(const float pSeconds);
-	void Render(const IRenderHelpers&) const;
+    void Stop();
+    void StateMachine(float pSeconds);
+    void Render(const IRenderHelpers&) const;
 	void RenderGui(const IGuiHelpers&);
+    bool TakeDamage(float damage);
+    void Move(const float pSeconds);
 
-    glm::vec3 GetPosition() const
+
+    bool checkCollision(GameEntity& other);
+
+    glm::vec3 GetPosition() const;
+
+    void resolveCollision(GameEntity& other);
+
+    glm::vec3 GetClosestTowerPosition();
+
+    glm::vec3 GetCenter()
     {
-        glm::mat4 model = GetModel();
-        glm::vec3 translation(model[3][0], model[3][1], model[3][2]);
-        return translation;
+        return glm::vec3(position.x, position.y + radius, position.z);
     }
 
-    bool checkCollision(GameEntity& other)  {
-        Agent* otherCylinder = dynamic_cast<Agent*>(&other);
-        if (otherCylinder) {
-            float distance = glm::length(position - otherCylinder->position);
-            float radiiSum = radius + otherCylinder->radius;
-            float heightDiff = abs(height - otherCylinder->height);
-            if (distance < radiiSum && heightDiff < radiiSum) {
-                return true;
-            }
-        }
-        return false;
-    }
-    void resolveCollision(GameEntity& other)  {
-        Agent* otherCylinder = dynamic_cast<Agent*>(&other);
-        if (otherCylinder) {
-            // Calculate the collision normal
-            glm::vec3 collisionNormal = glm::normalize(otherCylinder->position - position);
-
-            // Calculate the relative velocity between the two cylinders
-            glm::vec3 relativeVelocity = otherCylinder->velocity - velocity;
-
-            // Calculate the impulse scalar
-            float dot = glm::dot(-(1 + elasticity) * (relativeVelocity), collisionNormal);
-            float div = (1 / ((mass + 1) / otherCylinder->mass));
-            float impulseScalar =  dot/div ;
-
-            //// Apply the impulse to both cylinders
-            //glm::vec3 impulse = impulseScalar * collisionNormal;
-            //velocity += impulse / mass;
-
-            //otherCylinder->velocity -= impulse / otherCylinder->mass;
-
-            //force = impulse / DELTA_T;
-            //accerleration = force / mass;
-            //otherCylinder->force = -impulse / DELTA_T;
-            //otherCylinder->accerleration = otherCylinder->force / otherCylinder->mass;
-            force = glm::vec3(0, 0, 0);
-            accerleration = glm::vec3(0, 0, 0);
-            velocity = glm::vec3(0, 0, 0);
-
-        }
-    }
 };
 
 

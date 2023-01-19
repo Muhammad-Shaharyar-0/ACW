@@ -127,7 +127,10 @@ public:
 
     void Render(const IRenderHelpers&) const;
     void RenderGui(const IGuiHelpers&);
+    void Update(float pDeltaTime);
+    bool checkCollision(GameEntity& other) { return false; };
 
+     void resolveCollision(GameEntity& other) {};
 private:
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors()

@@ -12,6 +12,7 @@ private:
     float projectileSpeed;
 
     float influence;
+    int range;
 
 public:
 
@@ -22,7 +23,11 @@ public:
 
     //void DestroyProjectile(Ball* projectile);
 
-    Ball ShootProjectile(float dt, glm::vec3 dir);
+    Ball* ShootProjectile(float dt, glm::vec3 dir);
+
+    bool checkCollision(GameEntity& other) { return false; };
+
+    void resolveCollision(GameEntity& other) {};
 
 };
 

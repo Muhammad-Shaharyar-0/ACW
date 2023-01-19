@@ -12,5 +12,8 @@ public:
 
     void Render(const IRenderHelpers&) const;
     void RenderGui(const IGuiHelpers&);
+    bool checkCollision(GameEntity& other) { return false; };
+
+    void resolveCollision(GameEntity& other) {};
 };
 

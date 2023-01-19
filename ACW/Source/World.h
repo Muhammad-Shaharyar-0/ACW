@@ -1,17 +1,15 @@
 #pragma once
+#include <algorithm>
 #include <vector>
+#include <queue>
 #include "GameEntity.h"
 #include "Agent.h"
 #include "Tower.h"
+#include "Floor.h"
 
 using namespace std;
 
-struct cell
-{
-	bool isWalkable = true;
-	bool isOccupied = false;
-	GameEntity* occupiedBy = nullptr;
-};
+
 
 class World : public GameEntity
 {
@@ -20,12 +18,12 @@ public:
 	const static int GRID_DEPTH = 30;
 
 private:
-	const static int NUMBER_OF_AGENTS = 4;
-	const static int NUMBER_OF_Towers = 4;
+	const static int NUMBER_OF_AGENTS = 1;
+	const static int NUMBER_OF_Towers = 1;
 	int _gridHeights[GRID_WIDTH][GRID_DEPTH];
 	glm::vec3 _gridColours[GRID_WIDTH][GRID_DEPTH];
 
-	cell _grid[GRID_WIDTH][GRID_DEPTH];
+	Floor _grid[GRID_WIDTH][GRID_DEPTH];
 
 	Agent _agents[NUMBER_OF_AGENTS];
 
@@ -33,13 +31,15 @@ private:
 
 	vector<GameEntity*> entities;
 
-	//static World* _instance;
+
+
+
 
 public:
 
+	glm::vec3 SpawnPosition[2];
 
-
-	//static World* _instance;
+	static World* _instance;
 
 
 
@@ -63,10 +63,17 @@ public:
 	void Update(float pSeconds);
 	void Render(const IRenderHelpers&) const;
 	void RenderGui(const IGuiHelpers&);
-	bool FindTargetAgent(glm::vec3 towerPos, Team allyTeam, glm::vec3& nearest);
+	void AddEntity(GameEntity* item);
+	void RemoveEntity(GameEntity* item);
+	vector<Floor*> PathFinding(glm::vec3 start, glm::vec3 end);
 	bool isWithinBounds(int x, int z);
+	bool FindTargetAgent(glm::vec3 towerPos, int range, Team team, glm::vec3& nearest);
+	bool GetClosestTowerPosition(glm::vec3 start, Team team, glm::vec3& closestPos);
+	vector<Floor*> GetClosestTowerPath(glm::vec3 start,Team team);
+	bool checkCollision(GameEntity& other) { return false; };
+
+	void resolveCollision(GameEntity& other) {};
 };
 
 
 
-//World* World::_instance = nullptr;

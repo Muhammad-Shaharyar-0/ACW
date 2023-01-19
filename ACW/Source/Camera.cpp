@@ -10,3 +10,7 @@ void Camera::RenderGui(const IGuiHelpers& pHelper)
 {
 	pHelper.RenderGui(this);
 }
+
+void Camera::Update(float pDeltaTime)
+{
+}
