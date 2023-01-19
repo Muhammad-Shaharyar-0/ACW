@@ -40,8 +40,8 @@ private:
     
 
 public:
-    float radius = 0.5; // radius of the cylinder
-    float height = 2; // height of the cylinder
+    float radius = 0.5;
+    float height = 2; 
     float speed = 1500;
     glm::vec3 cylinderAxis = glm::normalize(glm::vec3(0, height, 0));
     Agent()
@@ -58,7 +58,7 @@ public:
     void Render(const IRenderHelpers&) const;
 	void RenderGui(const IGuiHelpers&);
     bool TakeDamage(float damage);
-    void Move(const float pSeconds);
+ 
 
 
     bool checkCollision(GameEntity& other);

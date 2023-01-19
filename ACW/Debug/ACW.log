@@ -1,10 +1,8 @@
 ﻿  Agent.cpp
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(42,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(55,23): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\Agent.cpp(130,35): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(53,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\Agent.cpp(145,35): warning C4018: '<': signed/unsigned mismatch
   App.cpp
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(42,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(55,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(53,23): warning C4305: 'initializing': truncation from 'double' to 'float'
 C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\App.cpp(101,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\App.cpp(102,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\App.cpp(106,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
@@ -16,41 +14,35 @@ C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\App.cpp(256,30
 C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\App.cpp(258,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\App.cpp(262,42): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Ball.cpp
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(42,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(55,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(53,23): warning C4305: 'initializing': truncation from 'double' to 'float'
   Floor.cpp
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(42,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(55,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(53,23): warning C4305: 'initializing': truncation from 'double' to 'float'
 C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\Floor.cpp(35,20): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
   Tower.cpp
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(42,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(55,23): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\Tower.cpp(46,27): warning C4018: '<': signed/unsigned mismatch
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\Tower.cpp(100,26): warning C4316: 'Ball': object allocated on the heap may not be aligned 16
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(53,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\Tower.cpp(62,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\Tower.cpp(120,26): warning C4316: 'Ball': object allocated on the heap may not be aligned 16
   World.cpp
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(42,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(55,23): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(33,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(131,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(137,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(391,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(418,80): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(53,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(18,29): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(92,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(98,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(267,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(293,80): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(418,50): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(293,50): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(433,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(497,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(308,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\World.cpp(340,20): warning C4018: '<': signed/unsigned mismatch
   GuiHelpers.cpp
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(42,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(55,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(53,23): warning C4305: 'initializing': truncation from 'double' to 'float'
   RenderHelpers.cpp
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(42,22): warning C4305: 'initializing': truncation from 'double' to 'const float'
-C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(55,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\ACW\Source\GameEntity.h(53,23): warning C4305: 'initializing': truncation from 'double' to 'float'
   Generating Code...
   ACW.vcxproj -> C:\Users\shahe\source\repos\Muhammad-Shaharyar-Uni\ACW\Debug\ACW.exe

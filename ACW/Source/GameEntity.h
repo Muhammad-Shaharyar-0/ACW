@@ -39,14 +39,12 @@ public:
 
 	EntityType type;
 	Team team;
-	const float DELTA_T = 0.01; // time step (s)
 
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 velocity = glm::vec3(0.0f, 0.0f, 0.0f); // velocity of the cylinder
-	glm::vec3 accerleration = glm::vec3(0.0f, 0.0f, 0.0f); // acceleration of the cylinder
+	glm::vec3 velocity = glm::vec3(0.0f, 0.0f, 0.0f); 
+	glm::vec3 accerleration = glm::vec3(0.0f, 0.0f, 0.0f); 
+	glm::vec3 rotation; 
 
-	glm::vec3 rotation; // rotation of the object around x, y and z axis
-	float speed; // speed of the object
 
 	const glm::vec3 GRAVITY_DIRECTION = glm::vec3(0.0f, -1.0f, 0.0f);
 	const float GRAVITY_MAGNITUDE = 9.8f;
@@ -56,16 +54,17 @@ public:
 
 	float elasticity= 0.1f;
 
-	glm::vec3 force = glm::vec3(0.0f, 0.0f, 0.0f); // net force acting on the object
-
+	glm::vec3 force = glm::vec3(0.0f, 0.0f, 0.0f); 
 	float maxForce = 50;
 	const float maxvelocity = 50;
 
 	enum class IntegrationMethod {
-		RungeKutta,
-		SimplifiedEuler,
-		Euler
+		RungeKutta=0,
+		SimplifiedEuler=2,
+		Euler=1,
 	};
+	glm::vec3 intergeration = glm::vec3(1, 0, 0);
+	IntegrationMethod integrationMethod=IntegrationMethod::Euler;
 
 	GameEntity() : m_Colour(1.0f, 1.0f, 1.0f), m_ID(s_NextID)
 	{
@@ -110,9 +109,8 @@ public:
 
 	virtual void Render(const IRenderHelpers&) const = 0;
 	virtual void RenderGui(const IGuiHelpers&);
-	void moveForward();
 	void applyForce(glm::vec3 f);
-	void PhysicsUpdate(IntegrationMethod integrationMethod, float pDeltaTime);
+	void PhysicsUpdate(float pDeltaTime);
 
 	virtual void Update(float pDeltaTime)=0;
 };

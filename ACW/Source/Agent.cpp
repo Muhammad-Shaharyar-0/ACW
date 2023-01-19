@@ -7,7 +7,7 @@ void Agent::Update(float pSeconds)
     
     StateMachine(pSeconds);
 	// Update your Agent here 
-	PhysicsUpdate(IntegrationMethod::Euler,pSeconds);
+	PhysicsUpdate(pSeconds);
     if (position.y < 0)
     {
     	position.y = 0;
@@ -44,36 +44,21 @@ void Agent::StateMachine(float pSeconds)
     }
     case State::Idle:
     {
-        /* ivec3 targetTile;
+        if (health <= initialhealth / 2)
+        {
+            double probability = (World::_instance->currentTime / World::_instance->matchTime) / 1;
+            int randomNum = rand() % 100;
+            int result = (randomNum < (probability * 100)) ? 1 : 0;
+            if (result == 0)
+            {
+                path = World::_instance->GetClosestTowerPath(position, team);
+            }
+            else
+            {
+               // path = World::_instance->ClosestPowerUpPath(position);
+            }
 
-         AgentStatus status = CalculateStatus(world->GetMatchTime());
-
-         if (status.healthy > status.hurt)
-         {
-             path = world->ClosestTowerPath(GetPosition(), team);
-         }
-         else if (status.hurt > status.critical)
-         {
-             if (status.hurt > status.scoreUrgency)
-             {
-                 path = world->ClosestPowerUpPath(GetPosition());
-             }
-             else
-             {
-                 path = world->ClosestTowerPath(GetPosition(), team);
-             }
-         }
-         else
-         {
-             if (status.critical > status.scoreUrgency)
-             {
-                 path = world->ClosestPowerUpPath(GetPosition());
-             }
-             else
-             {
-                 path = world->ClosestTowerPath(GetPosition(), team);
-             }
-         }*/
+        }
         path = World::_instance->GetClosestTowerPath(position, team);
         targetType = Target::Tower;
         if (path.size() > 0)
@@ -128,8 +113,18 @@ void Agent::StateMachine(float pSeconds)
                 int index = -1;
                 float closestDistSqr = INFINITY;
                 for (int i = 0; i < entities.size(); ++i)
-                {
-                    if (entities[i]->type == EntityType::Agent)
+                { 
+                    
+                    
+                    if (entities[i]->type == EntityType::Tower)
+                    {
+                        if (((Tower*)entities[i])->IsCaptured(team))
+                        {
+                            agent_State = State::Idle;
+                        }
+                    }
+
+                    else if (entities[i]->type == EntityType::Agent)
                     {
                         if (entities[i]->team != team)
                         {
@@ -144,17 +139,10 @@ void Agent::StateMachine(float pSeconds)
                         }
                        
                     }
-                    else if (entities[i]->type == EntityType::Tower)
-                    {
-                        if (((Tower*)entities[i])->IsCaptured(team))
-                        {
-                            agent_State = State::Idle;
-                        }
-                    }
+                    
                 }
             }
         }
-
         if (target)
         {
             AttackTime -= pSeconds;
@@ -194,13 +182,9 @@ bool Agent::TakeDamage(float damage)
     return false;
 }
 
-void Agent::Move(const float pSeconds)
-{
-   
-}
 
 bool Agent::checkCollision(GameEntity& other) {
-    Agent* otherCylinder = dynamic_cast<Agent*>(&other);
+   /* Agent* otherCylinder = dynamic_cast<Agent*>(&other);
     if (otherCylinder) {
         float distance = glm::length(position - otherCylinder->position);
         float radiiSum = radius + otherCylinder->radius;
@@ -208,7 +192,7 @@ bool Agent::checkCollision(GameEntity& other) {
         if (distance < radiiSum && heightDiff < radiiSum) {
             return true;
         }
-    }
+    }*/
     return false;
 }
 glm::vec3 Agent::GetPosition() const
@@ -220,34 +204,34 @@ glm::vec3 Agent::GetPosition() const
 
 void Agent::resolveCollision(GameEntity& other)
 {
-    Agent* otherCylinder = dynamic_cast<Agent*>(&other);
-    if (otherCylinder) {
-        // Calculate the collision normal
-        glm::vec3 collisionNormal = glm::normalize(otherCylinder->position - position);
+    //Agent* otherCylinder = dynamic_cast<Agent*>(&other);
+    //if (otherCylinder) {
+    //    // Calculate the collision normal
+    //    glm::vec3 collisionNormal = glm::normalize(otherCylinder->position - position);
 
-        // Calculate the relative velocity between the two cylinders
-        glm::vec3 relativeVelocity = otherCylinder->velocity - velocity;
+    //    // Calculate the relative velocity between the two cylinders
+    //    glm::vec3 relativeVelocity = otherCylinder->velocity - velocity;
 
-        // Calculate the impulse scalar
-        float dot = glm::dot(-(1 + elasticity) * (relativeVelocity), collisionNormal);
-        float div = (1 / ((mass + 1) / otherCylinder->mass));
-        float impulseScalar = dot / div;
+    //    // Calculate the impulse scalar
+    //    float dot = glm::dot(-(1 + elasticity) * (relativeVelocity), collisionNormal);
+    //    float div = (1 / ((mass + 1) / otherCylinder->mass));
+    //    float impulseScalar = dot / div;
 
-        //// Apply the impulse to both cylinders
-        //glm::vec3 impulse = impulseScalar * collisionNormal;
-        //velocity += impulse / mass;
+    //    //// Apply the impulse to both cylinders
+    //    //glm::vec3 impulse = impulseScalar * collisionNormal;
+    //    //velocity += impulse / mass;
 
-        //otherCylinder->velocity -= impulse / otherCylinder->mass;
+    //    //otherCylinder->velocity -= impulse / otherCylinder->mass;
 
-        //force = impulse / DELTA_T;
-        //accerleration = force / mass;
-        //otherCylinder->force = -impulse / DELTA_T;
-        //otherCylinder->accerleration = otherCylinder->force / otherCylinder->mass;
-        force = glm::vec3(0, 0, 0);
-        accerleration = glm::vec3(0, 0, 0);
-        velocity = glm::vec3(0, 0, 0);
+    //    //force = impulse / DELTA_T;
+    //    //accerleration = force / mass;
+    //    //otherCylinder->force = -impulse / DELTA_T;
+    //    //otherCylinder->accerleration = otherCylinder->force / otherCylinder->mass;
+    //    force = glm::vec3(0, 0, 0);
+    //    accerleration = glm::vec3(0, 0, 0);
+    //    velocity = glm::vec3(0, 0, 0);
 
-    }
+    //}
 }
 
 glm::vec3 Agent::GetClosestTowerPosition()

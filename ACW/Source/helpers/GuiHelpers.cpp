@@ -67,6 +67,7 @@ void ImGuiHelpers::RenderGui(GameEntity* pEntity) const
 {
 	std::string label = "Entity : " + std::to_string(pEntity->ID());
 	ImGui::Text(label.c_str());
+	RenderGui("Integeration Methode " + std::to_string(pEntity->ID()) + ":",pEntity->intergeration);
 }
 
 void ImGuiHelpers::RenderGui(Pipe* pPipe) const
@@ -102,4 +103,5 @@ void ImGuiHelpers::RenderGui(World* pWorld) const
 {
 	std::string label = "World " + std::to_string(pWorld->ID());
 	ImGui::Text(label.c_str());
+	RenderGui("Integeration Methode " + std::to_string(pWorld->ID()) + ":", &pWorld->intergeration);
 }

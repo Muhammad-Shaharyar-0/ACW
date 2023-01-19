@@ -15,53 +15,77 @@ Tower::Tower()
 
 void Tower::Update(float pDeltaTime)
 {
-    shootingDelay -= pDeltaTime;
+   
 
-    //return;
+    Shoot(pDeltaTime);
+    InfluenceLogic(pDeltaTime);
+ 
+  
+
+   
+
+}
+void Tower::Shoot(float pDeltaTime)
+{
+    shootingDelay -= pDeltaTime;
     if (shootingDelay <= 0)
     {
         glm::vec3 outPos;
-      
-        if (World::_instance->FindTargetAgent(position, range , team, outPos))
-        {
-           
-            printf("Found target %.2f %.2f\n", outPos.x, outPos.z);
-            glm::vec3 towerPeak = position;
-            towerPeak.y += m_BaseHeight + m_LipHeight;
-            outPos.y += 1;
-            glm::vec3 dir = glm::normalize(outPos - towerPeak);
 
-            Ball* ball =ShootProjectile(pDeltaTime, dir);
+        if (World::_instance->FindTargetAgent(position, range, team, outPos))
+        {
+
+            glm::vec3 topofTower = position;
+            topofTower.y += m_BaseHeight + m_LipHeight;
+            outPos.y += 1;
+            glm::vec3 dir = glm::normalize(outPos - topofTower);
+
+            Ball* ball = ShootProjectile(pDeltaTime, dir);
             World::_instance->AddEntity(ball);
             shootingDelay = 2.0f;
 
         }
     }
+}
+
+void Tower::InfluenceLogic(float pDeltaTime)
+{
+    float teaminfluence[2]
+    {
+        0,
+        0
+    };
+
     vector<GameEntity*> agents = World::_instance->SearchGrid(position, 2, EntityType::Agent);
-
-    float teaminfluence[2] = { 0, 0 };
-
     if (agents.size() > 0)
     {
         for (int i = 0; i < agents.size(); ++i)
         {
-            teaminfluence[(int)agents[i]->team] += pDeltaTime * 2.5f;
+            teaminfluence[(int)agents[i]->team] += pDeltaTime * 1.5f;
         }
     }
 
-    float diffinInfluence = teaminfluence[(int)Team::Red] - teaminfluence[(int)Team::Blue];
+    float diffinInfluence = teaminfluence[(int)Team::Blue] - teaminfluence[(int)Team::Red];
 
-    if (capturingTeam == Team::Red)
+    if (capturingTeam == Team::Blue)
     {
         influence += diffinInfluence;
     }
-    else if (capturingTeam == Team::Blue)
+    else if (capturingTeam == Team::Red)
     {
         influence -= diffinInfluence;
     }
     else
     {
-        capturingTeam = diffinInfluence > 0 ? Team::Red : Team::Blue;
+        if (diffinInfluence > 0)
+        {
+            capturingTeam = Team::Blue;
+        }
+        else
+        {
+            capturingTeam = Team::Red;
+
+        }
     }
 
     if (influence < 0)
@@ -70,12 +94,10 @@ void Tower::Update(float pDeltaTime)
         {
             capturingTeam = Team::Red;
         }
-          
         else if (capturingTeam == Team::Red)
         {
             capturingTeam = Team::Blue;
         }
-           
 
         influence = -influence;
     }
@@ -92,9 +114,7 @@ void Tower::Update(float pDeltaTime)
     {
         team = Team::Netural;
     }
-
 }
-
 Ball* Tower::ShootProjectile(float dt, glm::vec3 dir)
 {
     Ball* ball=new Ball();

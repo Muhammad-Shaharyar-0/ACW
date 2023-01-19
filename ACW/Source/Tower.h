@@ -23,7 +23,10 @@ public:
 
     void Update(float pDeltaTime);
 
-    //void DestroyProjectile(Ball* projectile);
+    void Shoot(float pDeltaTime);
+
+
+    void InfluenceLogic(float pDeltaTime);
 
     Ball* ShootProjectile(float dt, glm::vec3 dir);
 
